@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "tdsK1oEibmp5nOoSPB08JTPA79gJVAwGws1WODtKdgw=",
+  "Source": "gymappAPI",
+  "BasePath": "_content/gymappAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

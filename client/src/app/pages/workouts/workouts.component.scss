@@ -1,0 +1,22 @@
+.calendar{
+  display: flex;
+  height: 100%;
+}
+
+.add-button{
+  color: white;
+  background-color: darkslategrey;
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+}
+
+.datepicker{
+  display: flex;
+  justify-content: center;
+}
+
+.calendar-content{
+  width: calc(100%/7)
+}
+

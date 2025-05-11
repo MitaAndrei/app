@@ -1,0 +1,17 @@
+<div class="nav-bar">
+    <div *ngIf="authService.currentUserSig() === null">
+        <a routerLink="/" (click)="SignOut()">Home</a>
+    </div>
+    <div *ngIf="authService.currentUserSig()">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+<!--        <a routerLink="/stringarts" routerLinkActive="active" >String Arts</a>-->
+        <a routerLink="/profile" routerLinkActive="active">My profile</a>
+        <a routerLink="/workouts" routerLinkActive="active">Workouts</a>
+        <a routerLink="/macro" routerLinkActive="active">Macro Tracker</a>
+
+        <a routerLink="/" (click)="SignOut()">Sign out</a>
+    </div>
+    <div class="auth" *ngIf="!authService.currentUserSig()">
+        <a routerLink="/auth-form" (click)="SignIn()">Sign in</a>
+    </div>
+</div>

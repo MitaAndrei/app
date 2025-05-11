@@ -1,0 +1,55 @@
+<div class="container">
+  <h1>Log Food</h1>
+
+  <div class="addnew">
+    <p>Can't find the food you need? </p>
+    <p role="button" (click)="openAddFoodDialog()"><u>Add new</u></p>
+  </div>
+
+  <div class="d-flex flex-column">
+    <form [formGroup]="form">
+      <div formArrayName="foodsArray">
+        <div *ngFor="let foodGroup of foods.controls; let i = index" [formGroup]="foodGroup">
+          <mat-form-field class="autocomplete">
+            <mat-label>Food</mat-label>
+            <input type="text"
+                   #autocomplete
+                   required
+                   placeholder="Pick one"
+                   matInput
+                   formControlName="food"
+                   [matAutocomplete]="auto"
+                   (input)="filter(autocomplete.value)"
+                   (focus)="filter(autocomplete.value)">
+
+            <mat-autocomplete requireSelection #auto="matAutocomplete" [displayWith]="getOptionText">
+              <mat-option *ngFor="let food of filteredOptions" [value]="food" matTooltipClass="newlinebreak"
+                          [matTooltip]="getTooltipText(food)" matTooltipPosition="left">
+
+                {{ food.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+
+          <mat-form-field>
+            <mat-label>Grams</mat-label>
+            <input required matInput type="number" min="0" formControlName="grams" placeholder="Grams">
+          </mat-form-field>
+          <mat-icon *ngIf="i!=0" role="button" (click)="remove(i)">remove</mat-icon>
+        </div>
+      </div>
+    </form>
+    <mat-icon role="button" class="addbtn" (click)="add()">add</mat-icon>
+
+    <mat-form-field>
+      <mat-label>Choose a date</mat-label>
+      <input required matInput [matDatepicker]="picker"
+             [formControl]="form.controls.date">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+  </div>
+  <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="!this.form.valid">Submit</button>
+</div>

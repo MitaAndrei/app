@@ -1,0 +1,45 @@
+.wrapper{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 15px 25px;
+  width: 85%;
+  box-shadow: 3px 10px;
+  border-radius: 10px;
+  margin: 1rem auto auto;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.label{
+  border-radius: 10px;
+  width: 40%;
+  margin: 5px;
+  padding:5px;
+}
+
+.labels{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.wrapper:hover > .hide {
+  display: block;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  cursor: pointer;
+}
+
+.hide{
+  display: none;
+}
+
+.cdk-drag-placeholder{
+  opacity: 60%;
+}
+
+.description{
+  white-space: pre-line;
+}

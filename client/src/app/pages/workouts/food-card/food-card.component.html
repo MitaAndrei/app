@@ -1,0 +1,29 @@
+<div class="card shadow-sm border-1 my-4">
+  <div class="card-body">
+
+    @if (foods().length > 0){
+    <p class="mb-2"><strong>Calories:</strong> {{totalCalories.toFixed(2)}} </p>
+
+    <div class="row text-center my-3">
+      <div class="col">
+        <p class="fw-bold text-info m-0">{{totalProtein.toFixed(2)}} g</p>
+        <p class="text-muted small">Protein</p>
+      </div>
+      <div class="col">
+        <p class="fw-bold text-danger m-0">{{totalFats.toFixed(2)}} g</p>
+        <p class="text-muted small">Fats</p>
+      </div>
+      <div class="col">
+        <p class="fw-bold text-success m-0">{{totalCarbs.toFixed(2)}} g</p>
+        <p class="text-muted small">Carbs</p>
+      </div>
+    </div>
+
+    <u role="button" [routerLink]="['../macro',]" [queryParams]="{date: getFormattedDate(date())}">See full log</u>
+    }
+    @else {
+      <p class="mb-2"><strong>No food logged on this day.</strong></p>
+      <u role="button" (click)="openLogFoodDialog()">Log food</u>
+    }
+  </div>
+</div>

@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { padding:0; margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-shape: 10px;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-2 {
+  flex: 2;
+}
+
+[class*='flex-'] {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+[class*='flex-']:first-child {
+  padding-left: 0;
+}
+
+[class*='flex-']:nth-last-child(1) {
+  padding-right: 0;
+}

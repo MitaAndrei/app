@@ -1,0 +1,11 @@
+<div class="container">
+    <form [formGroup]="current_form" (ngSubmit)="onSubmit(current_model)">
+        <formly-form [form]="current_form" [fields]="current_fields" [model]="current_model"></formly-form>
+        <button type="submit" class="btn btn-primary">{{current_form===form_login ? "Log in" : "Sign up"}}</button>
+    </form>
+
+    <div class="actions">
+        <p>{{current_form===form_login ? "Don't" : "Already"}} have an account? </p>
+        <p class="clickable" (click)="changeForm()">{{current_form===form_login ? "Sign up" : "Log in"}}</p>
+    </div>
+</div>

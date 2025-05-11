@@ -1,0 +1,26 @@
+.container{
+    position: absolute;
+    border-radius: 10px;
+    width: 40vw;
+    top:20vh;
+    left: calc(50% - 20vw);
+    background-color: lightgray;
+    padding: 30px 30px;
+}
+
+.btn{
+    width: 100%;
+}
+.actions{
+    margin-top: 10px;
+    display: flex;
+    width: 100%;
+    white-space:pre;
+    align-items: center;
+    justify-content: center;
+}
+
+.clickable{
+  color:lightslategrey;
+  cursor: pointer;
+}

@@ -1,0 +1,13 @@
+<div class="content">
+
+    <div class="head">
+      <h5 [class.text-primary]="dayIsToday()" >{{ date().toDateString()}}</h5>
+    </div>
+
+    <div class="body" cdkDropList [cdkDropListData]="workouts()" (cdkDropListDropped)="drop($event)">
+      <div *ngFor="let workout of workouts()">
+        <app-activity [workout]="workout"/>
+      </div>
+      <app-food-card [foods]="foods()" [date]="date()"></app-food-card>
+    </div>
+</div>

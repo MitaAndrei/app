@@ -1,0 +1,11 @@
+
+<div class="graph">
+  <div class="week" *ngFor="let week of weeks">
+    <div
+      class="day"
+      *ngFor="let day of week"
+      [style.background-color]="getColor(day.value)"
+      [matTooltip]="'Date: ' + (day.date | date: 'EEE, MMM d, y') + ', Workouts: ' + day.value"
+    ></div>
+  </div>
+</div>

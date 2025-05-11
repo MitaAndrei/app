@@ -1,0 +1,35 @@
+<div>
+    <div *ngIf="!authService.currentUserSig()" class="goal-div">
+        <img src="{{imgSource}}/david-laid-2.webp" class="goal-pic">
+        <div class="text-area">
+            <h1>Welcome!</h1>
+            <h3>To start you need to sign in.</h3>
+        </div>
+    </div>
+
+    <div *ngIf="authService.currentUserSig()">
+
+    <div class="container">
+        <div class="card" id="workout">
+            <h2>Today's Workout</h2>
+            <p>Track your exercises and stay on top of your fitness goals.</p>
+            <button routerLink="/workouts">Log Workout</button>
+        </div>
+        <div class="card" id="diet">
+            <h2>Today's Diet</h2>
+            <p>Log your meals and monitor your calorie intake.</p>
+            <button routerLink="/macro">Log Meal</button>
+        </div>
+<!--        <div class="card" id="progress">-->
+<!--            <h2>Your Progress</h2>-->
+<!--            <p>View your progress and achieve your goals.</p>-->
+<!--            <button>View Progress</button>-->
+<!--        </div>-->
+<!--        <div class="card" id="settings">-->
+<!--            <h2>Settings</h2>-->
+<!--            <p>Adjust your preferences and customize your experience.</p>-->
+<!--            <button>Change Settings</button>-->
+<!--        </div>-->
+    </div>
+    </div>
+</div>

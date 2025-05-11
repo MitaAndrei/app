@@ -1,0 +1,21 @@
+<div class="wrapper" cdkDrag [cdkDragData]="workout()" (dblclick)="openEditDialog()" >
+
+  <div class="hide" (click)="openDeleteDialog()">
+    <mat-icon>delete</mat-icon>
+  </div>
+
+  <div class="labels">
+    <ng-container *ngFor="let label of workout().labels">
+      <div class="label" [ngStyle]="{background: label.color}">
+        {{label.muscle}}
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="my-3 description">
+    {{workout().description}}
+  </div>
+
+  {{workout().duration}} min
+
+</div>

@@ -1,0 +1,98 @@
+<div class="container mt-4">
+  <h2 class="text-center">Food Diary</h2>
+
+  <!-- Date Navigation -->
+  <div class="d-flex justify-content-between align-items-center my-3">
+    <button class="btn btn-outline-secondary" (click)="changeDay(-1)">← Previous Day</button>
+    <h5 class="fw-bold">{{ date() | date:'fullDate' }}</h5>
+    <button class="btn btn-outline-secondary" (click)="changeDay(1)">Next Day →</button>
+  </div>
+
+  <!-- Food Table -->
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+      <h5 class="card-title text-primary">Foods Eaten</h5>
+
+      <div class="table-responsive">
+        <table class="table table-striped align-middle">
+          <thead class="table-light">
+          <tr>
+            <th>Name</th>
+            <th>Grams</th>
+            <th>Calories</th>
+            <th>Protein (g)</th>
+            <th>Fats (g)</th>
+            <th>Carbs (g)</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let loggedFood of foodsForCurrentDate; let i = index">
+            <td>{{ loggedFood.food.name }}</td>
+            <td>
+              @if(beingEdited == loggedFood){
+              <input
+                     [(ngModel)]="loggedFood.grams"
+                     (keyup.enter)="save(loggedFood)"
+                     (keyup.escape)="cancel()"
+                     class="form-control form-control-sm"
+                     type="number"
+                     min="1">
+              }
+              @else{
+                <p (dblclick)="edit(loggedFood)">{{ loggedFood.grams }}</p>
+              }
+            </td>
+            <td>{{ loggedFood.food.calories / 100 * loggedFood.grams }}</td>
+            <td>{{ loggedFood.food.protein / 100 * loggedFood.grams }}</td>
+            <td>{{ loggedFood.food.fats / 100 * loggedFood.grams }}</td>
+            <td>{{ loggedFood.food.carbs / 100 * loggedFood.grams }}</td>
+            <td>
+
+              @if(loggedFood != beingEdited){
+              <button class="btn btn-sm btn-outline-primary me-2" (click)="edit(loggedFood)">
+                <mat-icon class="small">edit</mat-icon>
+              </button>
+              }@else{
+                <button
+                  class="btn btn-sm btn-outline-success me-2"
+                  (click)="save(loggedFood)">
+                  <mat-icon class="small">check</mat-icon>
+                </button>
+              }
+
+              @if(loggedFood != beingEdited){
+                <button class="btn btn-sm btn-outline-danger" (click)="deleteLoggedFood(loggedFood.id)">
+                  <mat-icon class="small">delete</mat-icon>
+                </button>
+              }@else{
+                <button
+                  class="btn btn-sm btn-outline-dark"
+                  (click)="cancel()">
+                  <mat-icon class="small">cancel</mat-icon>
+                </button>
+              }
+            </td>
+          </tr>
+          </tbody>
+          <tfoot class="fw-bold">
+          <tr>
+            <td>Total</td>
+            <td></td>
+            <td>{{ getTotalCalories() }}</td>
+            <td>{{ getTotalProtein() }}</td>
+            <td>{{ getTotalFats() }}</td>
+            <td>{{ getTotalCarbs() }}</td>
+            <td></td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- Log Food Button -->
+      <div class="text-end mt-3">
+        <button class="btn btn-success" (click)="openLogFoodDialog()">+ Log Food</button>
+      </div>
+    </div>
+  </div>
+</div>
