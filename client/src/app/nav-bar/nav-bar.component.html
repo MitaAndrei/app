@@ -1,17 +1,34 @@
 <div class="nav-bar">
+    <div>
+      <input [formControl]="searchControl" placeholder="Search for people" />
+
+
+      @if (searchControl.value){
+      <div class="users_result">
+        @for (user of users; track user.username){
+        <div class="user_info" [routerLink]="['/profile', user.username]" (click)="searchControl.setValue('')">
+          <p>{{user.username}}</p>
+        </div>
+        } @empty {
+          <p *ngIf="searchControl.value">No users found.</p>
+        }
+      </div>
+      }
+    </div>
+
     <div *ngIf="authService.currentUserSig() === null">
         <a routerLink="/" (click)="SignOut()">Home</a>
     </div>
     <div *ngIf="authService.currentUserSig()">
         <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
 <!--        <a routerLink="/stringarts" routerLinkActive="active" >String Arts</a>-->
-        <a routerLink="/profile" routerLinkActive="active">My profile</a>
+        <a [routerLink]="['/profile', authService.currentUserSig()?.username]" routerLinkActive="active">My profile</a>
         <a routerLink="/workouts" routerLinkActive="active">Workouts</a>
         <a routerLink="/macro" routerLinkActive="active">Macro Tracker</a>
 
         <a routerLink="/" (click)="SignOut()">Sign out</a>
     </div>
     <div class="auth" *ngIf="!authService.currentUserSig()">
-        <a routerLink="/auth-form" (click)="SignIn()">Sign in</a>
+        <a routerLink="/auth-form">Sign in</a>
     </div>
 </div>

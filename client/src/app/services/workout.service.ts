@@ -38,9 +38,17 @@ export class WorkoutService {
   getAllInDateRange(start: Date, end: Date) : Observable<Workout[]>{
     const fstart = start.toISOString();
     const fend = end.toISOString();
-    return this.http.get<Workout[]>(this.baseApiUrl + 'Workout/getAllInDateRange',{
+    return this.http.get<Workout[]>(this.baseApiUrl + 'Workout/current',{
       params: {startDate: fstart, endDate: fend},});
   }
+
+  getForUser(userId: string, start: Date, end: Date) : Observable<Workout[]>{
+    const fstart = start.toISOString();
+    const fend = end.toISOString();
+    return this.http.get<Workout[]>(this.baseApiUrl + 'Workout/user/'+userId,{
+      params: {startDate: fstart, endDate: fend},});
+  }
+
 
   deleteWorkout(id: string): Observable<string> {
     return this.http.delete<string>(this.baseApiUrl + `Workout/${id}`,);

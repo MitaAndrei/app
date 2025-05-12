@@ -13,9 +13,9 @@ public interface IWorkoutManager
     
     public Task<Models.Workout[]> GetTemplatesAsync();
 
-    public Task<Models.Workout[]> GetAllInDateRangeAsync(DateTime start, DateTime end);
+    public Task<Models.Workout[]> GetAllInDateRangeAsync(Guid userId, DateTime start, DateTime end);
     
-    public Task<Models.Workout> GetWorkoutByIdAsync(Guid id);
+    public Task<Models.Workout?> GetWorkoutByIdAsync(Guid id);
 
     public Task<bool> DeleteAsync(Guid id);
     

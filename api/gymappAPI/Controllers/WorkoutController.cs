@@ -55,14 +55,20 @@ namespace gymappAPI.Controllers
             return NoContent();
         }
         
-        [Authorize]
-        [HttpGet("getAllInDateRange")]
-        public async Task<Workout[]> GetAllInDateRange([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+        [HttpGet("current")]
+        public async Task<Workout[]> GetCurrentUserWorkouts([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
         {
-            return await _workoutManager.GetAllInDateRangeAsync(startDate, endDate);
+            var user = await _userManager.GetCurrentUserAsync();
+            return await _workoutManager.GetAllInDateRangeAsync(user.Id, startDate, endDate);
         }
         
-        // GET: api/<WorkoutController>
+        [HttpGet("user/{userId}")]
+        public async Task<Workout[]> GetUserWorkouts(Guid userId, [FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+        {
+            return await _workoutManager.GetAllInDateRangeAsync(userId, startDate, endDate);
+        }
+        
+        // GET: api/<WorkoutController>    
         [HttpGet("templates")]
         public async Task<Workout[]> GetTemplates()
         {

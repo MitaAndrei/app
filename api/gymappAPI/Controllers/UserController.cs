@@ -32,6 +32,29 @@ namespace gymappAPI.Controllers
             return await _userManager.GetCurrentUserAsync();
         }
         
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchUsers([FromQuery] string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return BadRequest([]);
+            
+            var users = await _userManager.SearchUsersAsync(query);
+
+            return Ok(users);
+        }
+        
+        [HttpGet("GetUserByUsername")]
+        public async Task<IActionResult> GetUserByUsername([FromQuery] string username)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+                return NotFound();
+            
+            var user = await _userManager.GetUserByUsernameAsync(username);
+            
+            if(user is null) return NotFound();
+
+            return Ok(user);
+        }
     }
     
 }

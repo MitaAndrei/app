@@ -3,8 +3,9 @@
   <div class="d-flex flex-column align-items-center">
     <img class="rounded-circle" src="https://placehold.co/175x175">
     <div class="info my-1">
-      <h2>{{currentUser.username}}</h2>
+      <h2>{{User.username}}</h2>
     </div>
+
     <h4>{{workouts?.length ?? 0 }} workouts in the last year</h4>
     <app-activity-graph *ngIf="workouts != null" [contributions]="workouts" [startDate]="activityStartDate"/>
 

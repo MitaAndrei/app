@@ -32,4 +32,17 @@ public class UserManager: IUserManager
             
         return await GetUserByIdAsync(userId);
     }
+
+    public async Task<User[]> SearchUsersAsync(string searchString)
+    {
+        var tolower = searchString.ToLower();
+        var users = _context.Users.Where(u => u.Username.ToLower().Contains(tolower));
+        return await users.ToArrayAsync();
+    }
+
+    public async Task<User?> GetUserByUsernameAsync(string username)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+        return user;
+    }
 }

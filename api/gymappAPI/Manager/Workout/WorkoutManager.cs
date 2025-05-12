@@ -94,18 +94,16 @@ public class WorkoutManager : IWorkoutManager
             .Where(w => w.UserId == userId && w.IsTemplate == true).ToArrayAsync();
     }
     
-    public async Task<Models.Workout[]> GetAllInDateRangeAsync(DateTime start, DateTime end)
+    public async Task<Models.Workout[]> GetAllInDateRangeAsync(Guid userId, DateTime start, DateTime end)
     {
-        var user = await _userManager.GetCurrentUserAsync();
-        var userId = user.Id;
-        return _context.Workouts.Include(x => x.Labels)
+        return await _context.Workouts.Include(x => x.Labels)
             .Where(w => 
                 w.UserId == userId &&
                 w.Date >= start &&
-                w.Date <= end).ToArray();
+                w.Date <= end).ToArrayAsync();
     }
 
-    public async Task<Models.Workout> GetWorkoutByIdAsync(Guid id)
+    public async Task<Models.Workout?> GetWorkoutByIdAsync(Guid id)
     {
         return await _context.Workouts.FirstOrDefaultAsync(w => w.Id == id);
     }

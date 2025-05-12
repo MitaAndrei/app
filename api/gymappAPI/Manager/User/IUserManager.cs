@@ -7,4 +7,8 @@ public interface IUserManager
     public Task<User?> GetUserByIdAsync(string id);
     
     public Task<User?> GetCurrentUserAsync();
+    
+    public Task<User[]> SearchUsersAsync(string searchString);
+    
+    public Task<User?> GetUserByUsernameAsync(string username);
 }

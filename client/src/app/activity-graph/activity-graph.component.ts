@@ -1,4 +1,4 @@
-import {Component, input, OnInit} from '@angular/core';
+import {Component, input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {MatTooltip} from "@angular/material/tooltip";
 import {DatePipe, NgForOf} from "@angular/common";
 import {Workout} from "../models/Workout";
@@ -15,7 +15,7 @@ import {DateTimeService} from "../services/date-time.service";
   templateUrl: './activity-graph.component.html',
   styleUrl: './activity-graph.component.scss'
 })
-export class ActivityGraphComponent implements OnInit {
+export class ActivityGraphComponent implements OnChanges {
   contributions = input.required<Workout[]>(); // Array of contributions for 365 days
   levels: string[] = ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127']; // Color levels
   startDate= input.required<Date>(); // Start date of the contribution graph (yyyy-MM-dd)
@@ -26,11 +26,14 @@ export class ActivityGraphComponent implements OnInit {
   constructor(private dateTimeService: DateTimeService) {
   }
 
-  ngOnInit(): void {
-    this.generateWeeks();
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['contributions']){
+      this.generateWeeks();
+    }
   }
 
   private generateWeeks(): void {
+    this.weeks = [];
     const baseDate = new Date(this.startDate());
     const daysInYear = 365;
     const daysInWeek = 7;

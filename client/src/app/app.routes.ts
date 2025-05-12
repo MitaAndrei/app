@@ -17,7 +17,7 @@ export const routes: Routes = [
       { path: 'workouts', component: WorkoutsComponent},
       { path: 'macro', component: MacroTrackerComponent},
       { path: 'auth-form', component: AuthFormComponent},
-      { path: 'profile', component: UserProfileComponent},
+      { path: 'profile/:username', component: UserProfileComponent},
     ]
   },
   {

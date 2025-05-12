@@ -21,3 +21,24 @@
 .active{
   color: #ffcc00 !important;
 }
+
+
+.users_result{
+  position: absolute;
+  width: 200px;
+  background-color: white;
+  padding: 10px;
+  border: black solid 1px;
+  z-index: 100;
+}
+
+.user_info{
+  border-bottom: black solid 1px;
+  padding-block: 10px;
+  margin-block: 5px;
+  cursor: pointer;
+}
+
+.user_info:hover{
+  background-color: #9aa8c0;
+}
