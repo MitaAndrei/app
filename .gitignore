@@ -8,11 +8,22 @@
 # exclude patterns (uncomment them if you want to use them):
 # *.[oa]
 # *~
-/zaebalo/.vs/
-/api/.idea/
-/api/.vs/
+/zaebalo/.vs/zaebalo/xs/project-cache/zaebalo-Debug.json
+/zaebalo/.vs/zaebalo/xs/UserPrefs.xml
+/api/.idea/.idea.gymappAPI/.idea/.gitignore
+/api/.idea/.idea.gymappAPI/.idea/.name
+/api/.idea/.idea.gymappAPI/.idea/encodings.xml
+/api/.idea/.idea.gymappAPI/.idea/indexLayout.xml
+/api/.idea/.idea.gymappAPI/.idea/vcs.xml
+/api/.idea/.idea.zaebalo/.idea/workspace.xml
+/api/.vs/zaebalo/xs/project-cache/zaebalo-Debug.json
+/api/.vs/zaebalo/xs/UserPrefs.xml
 /api/gymappAPI.sln.DotSettings.user
 /api/gymappAPI/bin/
-/client/.vscode/
 /api/gymappAPI/obj/
-/.idea/
+/client/.vscode/extensions.json
+/client/.vscode/launch.json
+/client/.vscode/tasks.json
+/api/.vs/
+/api/.idea/
+.idea/
