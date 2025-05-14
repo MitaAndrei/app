@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using gymappAPI.Data;
 using gymappAPI.Manager;
 using gymappAPI.Manager.Food;
+using gymappAPI.Manager.Friends;
 using gymappAPI.Manager.Workout;
 using gymappAPI.Models;
 
@@ -24,6 +25,7 @@ builder.Services.AddScoped<IAuthManager, AuthManager>();
 builder.Services.AddScoped<IUserManager, UserManager>();
 builder.Services.AddScoped<IWorkoutManager, WorkoutManager>();
 builder.Services.AddScoped<IFoodManager, FoodManager>();
+builder.Services.AddScoped<IFriendsManager, FriendsManager>();
 
 
 

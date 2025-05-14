@@ -10,7 +10,8 @@ import {NgIf} from "@angular/common";
 import {UserService} from "../../services/user.service";
 import {filter, map} from "rxjs";
 import {toSignal} from "@angular/core/rxjs-interop";
-
+import {FriendsService} from "../../services/friends.service";
+import {FriendshipStatus} from "../../models/FriendshipStatus";
 
 @Component({
   selector: 'app-user-profile',
@@ -23,6 +24,7 @@ export class UserProfileComponent implements OnInit {
     workouts: Workout[] | null = null;
     User: User = {} as User;
     isCurrentUser: boolean = true;
+    friendshipStatus: FriendshipStatus = FriendshipStatus.None;
 
   username = toSignal(
     this.route.paramMap.pipe(
@@ -36,6 +38,7 @@ export class UserProfileComponent implements OnInit {
                 private workoutService: WorkoutService,
                 private dateTimeService: DateTimeService,
                 private userService: UserService,
+                private friendsService: FriendsService,
                 private route: ActivatedRoute)
     {
       effect(() => {
@@ -53,32 +56,13 @@ export class UserProfileComponent implements OnInit {
             this.User = user;
             this.isCurrentUser = false;
             this.fetchWorkouts();
+            this.getFriendshipStatus();
           });
         }
       });
     }
 
     ngOnInit(): void {
-
-      // this.route.paramMap.subscribe(params => {
-      //   const username = params.get('username');
-      //   const currentUser = this.authService.currentUserSig();
-      //
-      //   if (!username) return;
-      //
-      //   if (currentUser && username === currentUser.username) {
-      //     this.User = currentUser;
-      //     this.fetchWorkouts();
-      //   } else {
-      //     this.userService.getUserByUsername(username).subscribe(user => {
-      //       this.User = user;
-      //       this.isCurrentUser = false;
-      //       this.fetchWorkouts();
-      //     });
-      //   }
-      //
-      //   console.log(this.User);
-      // });
 
     }
 
@@ -122,5 +106,41 @@ export class UserProfileComponent implements OnInit {
       }
       return max
   }
+
+  sendFriendRequest(){
+      this.friendsService.sendFriendRequest(this.User.id).subscribe({
+        next: () => this.friendshipStatus = FriendshipStatus.PendingSent
+      });
+  }
+
+  acceptFriendRequest() {
+      this.friendsService.acceptFriendRequest(this.User.id).subscribe( {
+        next: () => this.friendshipStatus = FriendshipStatus.Friends
+        }
+
+      );
+  }
+
+  rejectFriendRequest() {
+      this.friendsService.rejectFriendRequest(this.User.id).subscribe({
+        next: () => this.friendshipStatus = FriendshipStatus.None
+      });
+  }
+
+  unfriend() {
+      this.friendsService.unfriend(this.User.id).subscribe({
+        next: () => this.friendshipStatus = FriendshipStatus.None
+      })
+  }
+
+  getFriendshipStatus(){
+    this.friendsService.getFriendshipStatus(this.User.id).subscribe( status => {
+        this.friendshipStatus = status;
+      }
+    )
+  }
+
+  protected readonly FriendshipStatus = FriendshipStatus;
+
 
 }

@@ -6,6 +6,21 @@
       <h2>{{User.username}}</h2>
     </div>
 
+    @if (!isCurrentUser && friendshipStatus == FriendshipStatus.None){
+      <button class="btn btn-success" (click)="sendFriendRequest()">Add friend</button>
+    } @else if (friendshipStatus == FriendshipStatus.PendingSent){
+      <p>Friend request sent. Waiting for {{User.username}} to accept it!</p>
+    } @else if (friendshipStatus == FriendshipStatus.PendingReceived){
+      <p>{{User.username}} wants to be friends with you!</p>
+      <div class="d-flex gap-2">
+        <button class="btn btn-success" (click)="acceptFriendRequest()">Accept</button>
+        <button class="btn btn-danger" (click)="rejectFriendRequest()">Reject</button>
+      </div>
+    } @else if (friendshipStatus == FriendshipStatus.Friends){
+      <p>You are friends!</p>
+      <button class="btn btn-danger" (click)="unfriend()">Unfriend</button>
+    }
+
     <h4>{{workouts?.length ?? 0 }} workouts in the last year</h4>
     <app-activity-graph *ngIf="workouts != null" [contributions]="workouts" [startDate]="activityStartDate"/>
 

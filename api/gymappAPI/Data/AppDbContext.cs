@@ -18,6 +18,7 @@ namespace gymappAPI.Data
 		
 		public DbSet<LoggedFood> LoggedFoods { get; set; }
 		
+		public DbSet<FriendRequest> FriendRequests { get; set; }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
