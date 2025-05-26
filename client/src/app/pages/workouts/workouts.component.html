@@ -4,7 +4,10 @@
  <app-date-range-picker (rangeChanged)="changeDates($event)"></app-date-range-picker>
   <mat-icon (click)="nextWeek()" role="button">arrow_circle_right</mat-icon>
 </div>
+
+@if(username() == authService.currentUserSig()?.username){
 <mat-icon role="button" (click)="toggleSidebar()">menu</mat-icon>
+}
 
 <div class="calendar" cdkDropListGroup>
   <app-sidebar *ngIf="sidebarOpen"/>
@@ -12,6 +15,7 @@
     <app-calendar-content [workouts]="day.workouts" [date]="day.date" [foods]="day.loggedFoods" class="calendar-content"/>
   </ng-container>
 
+  @if(username() == authService.currentUserSig()?.username){
   <button mat-fab class="add-button" [matMenuTriggerFor]="menu">
     <mat-icon>add</mat-icon>
   </button>
@@ -21,4 +25,5 @@
     <button class="menu-item" mat-menu-item (click)="openAddDialog()">Workout</button>
     <button class="menu-item" mat-menu-item>Template</button>
   </mat-menu>
+  }
 </div>

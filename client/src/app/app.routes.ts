@@ -14,7 +14,7 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: '', component: HomeComponent },
-      { path: 'workouts', component: WorkoutsComponent},
+      { path: 'workouts/:username', component: WorkoutsComponent},
       { path: 'macro', component: MacroTrackerComponent},
       { path: 'auth-form', component: AuthFormComponent},
       { path: 'profile/:username', component: UserProfileComponent},

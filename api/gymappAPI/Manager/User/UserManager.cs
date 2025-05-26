@@ -18,9 +18,9 @@ public class UserManager: IUserManager
 
     }
     
-    public async Task<User?> GetUserByIdAsync(string id)
+    public async Task<User?> GetUserByIdAsync(Guid id)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == Guid.Parse(id));
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
         return user;
     }
@@ -28,7 +28,7 @@ public class UserManager: IUserManager
     public async Task<User?> GetCurrentUserAsync()
     {
         var abc = _httpContextAccessor.HttpContext;
-        var userId = abc?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = Guid.Parse(abc?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             
         return await GetUserByIdAsync(userId);
     }

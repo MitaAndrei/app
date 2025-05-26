@@ -19,6 +19,8 @@
     } @else if (friendshipStatus == FriendshipStatus.Friends){
       <p>You are friends!</p>
       <button class="btn btn-danger" (click)="unfriend()">Unfriend</button>
+      <a [routerLink]="['/workouts', User.username]">Check {{User.username}}'s workouts</a>
+
     }
 
     <h4>{{workouts?.length ?? 0 }} workouts in the last year</h4>

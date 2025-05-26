@@ -50,6 +50,7 @@ export class UserProfileComponent implements OnInit {
         if (currentUser && username === currentUser.username) {
           this.User = currentUser;
           this.isCurrentUser = true;
+          this.friendshipStatus = FriendshipStatus.None;
           this.fetchWorkouts();
         } else {
           this.userService.getUserByUsername(username).subscribe(user => {

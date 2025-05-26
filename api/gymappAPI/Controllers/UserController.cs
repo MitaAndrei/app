@@ -1,12 +1,8 @@
-using System.Security.Claims;
 using gymappAPI.Manager;
 using gymappAPI.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using Microsoft.IdentityModel.JsonWebTokens;
-using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
+
 
 namespace gymappAPI.Controllers
 {

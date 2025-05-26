@@ -137,10 +137,10 @@ export class AuthFormComponent {
       this.authService.logIn(credentials).subscribe( response => {
         localStorage.setItem("token", response.accessToken);
         localStorage.setItem("refreshToken", response.refreshToken);
-        this.router.navigate(['/workouts']);
         this.authService.getCurrentUser().subscribe({
           next: user => {
             this.authService.currentUserSig.set(user);
+            this.router.navigate(['/profile/'+user.username]);
           },
           error: () => {
             this.authService.currentUserSig.set(null);

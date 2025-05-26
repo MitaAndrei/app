@@ -18,19 +18,19 @@ public class FoodManager : IFoodManager
         _context = context;
         _userManager = userManager;
     }
-    public async Task Create(Models.Food food)
+    public async Task CreateAsync(Models.Food food)
     {
         _context.Foods.Add(food);
         await _context.SaveChangesAsync();
     }
 
-    public async Task CreateLoggedFoods(LoggedFood[] loggedFoods)
+    public async Task CreateLoggedFoodsAsync(LoggedFood[] loggedFoods)
     {
         _context.LoggedFoods.AddRange(loggedFoods);
         await _context.SaveChangesAsync();
     }
 
-    public async Task<LoggedFood[]> ConvertToLoggedFoods(FoodGramsPair[] foods, DateTime date)
+    public async Task<LoggedFood[]> ConvertToLoggedFoodsAsync(FoodGramsPair[] foods, DateTime date)
     {
         var user = await _userManager.GetCurrentUserAsync();
         
@@ -52,9 +52,9 @@ public class FoodManager : IFoodManager
         return result.ToArray();
     }
 
-    public async Task<LoggedFood[]> GetAllInDateRange(DateTime start, DateTime end)
+    public async Task<LoggedFood[]> GetAllInDateRangeAsync(Guid userId, DateTime start, DateTime end)
     {
-        var user = await _userManager.GetCurrentUserAsync();
+        var user = await _userManager.GetUserByIdAsync(userId);
         return await _context.LoggedFoods.Include(f => f.Food)
             .Where(f => 
                 f.User == user &&
@@ -62,7 +62,7 @@ public class FoodManager : IFoodManager
                 f.Date <= end).ToArrayAsync();
     }
 
-    public async Task<LoggedFood[]> GetAllForDate(DateTime date)
+    public async Task<LoggedFood[]> GetAllForDateAsync(DateTime date)
     {
         var user = await _userManager.GetCurrentUserAsync();
         return await _context.LoggedFoods.Include(f => f.Food)
@@ -72,13 +72,13 @@ public class FoodManager : IFoodManager
                 f.Date.Year == date.Year).ToArrayAsync();
     }
 
-    public async Task DeleteLoggedFood(Guid id)
+    public async Task DeleteLoggedFoodAsync(Guid id)
     {
         _context.LoggedFoods.Remove(await _context.LoggedFoods.FindAsync(id));
         await _context.SaveChangesAsync();
     }
 
-    public async Task EditLoggedFood(LoggedFood loggedFood)
+    public async Task EditLoggedFoodAsync(LoggedFood loggedFood)
     {
         _context.LoggedFoods.Update(loggedFood);
         await _context.SaveChangesAsync();
@@ -89,7 +89,7 @@ public class FoodManager : IFoodManager
         return await _context.Foods.FindAsync(foodId);
     }
 
-    public async Task<Models.Food[]> GetAllFood()
+    public async Task<Models.Food[]> GetAllFoodAsync()
     {
         return await _context.Foods.ToArrayAsync();
     }

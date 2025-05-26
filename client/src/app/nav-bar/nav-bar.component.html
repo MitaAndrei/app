@@ -21,9 +21,8 @@
     </div>
     <div *ngIf="authService.currentUserSig()">
         <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
-<!--        <a routerLink="/stringarts" routerLinkActive="active" >String Arts</a>-->
         <a [routerLink]="['/profile', authService.currentUserSig()?.username]" routerLinkActive="active">My profile</a>
-        <a routerLink="/workouts" routerLinkActive="active">Workouts</a>
+        <a [routerLink]="['/workouts', authService.currentUserSig()?.username]" routerLinkActive="active">Workouts</a>
         <a routerLink="/macro" routerLinkActive="active">Macro Tracker</a>
 
         <a routerLink="/" (click)="SignOut()">Sign out</a>

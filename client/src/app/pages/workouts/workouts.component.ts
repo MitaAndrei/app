@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, effect, OnDestroy, OnInit} from '@angular/core';
 import {WorkoutService} from "../../services/workout.service";
 import {Workout} from "../../models/Workout";
 import {CommonModule} from "@angular/common";
@@ -12,13 +12,18 @@ import {DateRangePickerComponent} from "../../custom-field-types/date-range-pick
 import {DateRange} from "@angular/material/datepicker";
 import {SidebarComponent} from "./sidebar/sidebar.component";
 import {CdkDropListGroup} from "@angular/cdk/drag-drop";
-import {Subject, takeUntil} from "rxjs";
+import {filter, map, Subject, takeUntil} from "rxjs";
 import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from "@angular/cdk/menu";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {LogFoodDialogComponent} from "./log-food-dialog/log-food-dialog.component";
 import {FoodService} from "../../services/food.service";
 import {LoggedFood} from "../../models/LoggedFood";
 import {FoodCardComponent} from "./food-card/food-card.component";
+import { User } from '../../models/User';
+import {toSignal} from "@angular/core/rxjs-interop";
+import {ActivatedRoute} from "@angular/router";
+import {AuthService} from "../../services/auth.service";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-workouts',
@@ -43,11 +48,46 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   workouts: Workout[]  = [];
   loggedFoods: LoggedFood[] = []
   days: {date: Date, workouts: Workout[], loggedFoods: LoggedFood[]}[] = [];
+  User: User = {} as User;
+  isCurrentUser: boolean = true;
+
+  username = toSignal(
+    this.route.paramMap.pipe(
+      map(params => params.get('username')),
+      filter((username): username is string => !!username)
+    ),
+    { initialValue: '' }
+  );
 
   constructor(private workoutService: WorkoutService,
               private dateTimeService: DateTimeService,
               private foodService: FoodService,
-              private dialog: MatDialog,) {
+              private dialog: MatDialog,
+              private route: ActivatedRoute,
+              protected authService: AuthService,
+              private userService: UserService,) {
+
+    effect(() => {
+      const username = this.username();
+      const currentUser = this.authService.currentUserSig();
+
+      if (!username || currentUser === undefined) return;
+
+      if (currentUser && username === currentUser.username) {
+        this.User = currentUser;
+        this.isCurrentUser = true;
+        this.getWorkouts()
+        this.getLoggedFoods()
+
+      } else {
+        this.userService.getUserByUsername(username).subscribe(user => {
+          this.User = user;
+          this.isCurrentUser = false;
+          this.getWorkouts()
+          this.getLoggedFoods()
+        });
+      }
+    });
 
   }
 
@@ -63,13 +103,10 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
     this.foodService.triggerGetFoods
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.getLoggedFoods())
-
-    this.getWorkouts()
-    this.getLoggedFoods()
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();  // Emits a value to complete the observables
+    this.destroy$.next();
     this.destroy$.complete();
   }
 
@@ -93,28 +130,46 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   }
 
   getWorkouts(){
-    this.workoutService.getAllInDateRange(this.days[0].date, this.days[6].date).subscribe(
-      workouts => {
-        this.workouts = workouts;
-        this.days.forEach(day => {
-          day.workouts = workouts
-            .filter(w => this.dateTimeService.sameDay(new Date(w.date), day.date))
-        })
-      }
-    )
+
+    if(this.isCurrentUser){
+      this.workoutService.getAllInDateRange(this.days[0].date, this.days[6].date).subscribe(
+        workouts => this.setWorkouts(workouts)
+      )
+    }
+    else{
+      this.workoutService.getForUser(this.User.id, this.days[0].date, this.days[6].date).subscribe(
+        workouts => this.setWorkouts(workouts)
+      )
+    }
+  }
+
+  setWorkouts(workouts: Workout[]) {
+    this.workouts = workouts;
+    this.days.forEach(day => {
+      day.workouts = workouts
+        .filter(w => this.dateTimeService.sameDay(new Date(w.date), day.date))
+    })
   }
 
   getLoggedFoods(){
-    this.foodService.getAllInDateRange(this.days[0].date, this.days[6].date).subscribe(
-      lf => {
-        this.loggedFoods = lf;
+    if(this.isCurrentUser){
+      this.foodService.getAllInDateRange(this.days[0].date, this.days[6].date).subscribe(
+        lf => this.setLoggedFoods(lf)
+      )
+    }else{
+      this.foodService.getInDateRangeFor(this.User.id, this.days[0].date, this.days[6].date).subscribe(
+        lf => this.setLoggedFoods(lf)
+      )
+    }
+  }
 
-        this.days.forEach(day => {
-          day.loggedFoods = lf
-            .filter(f => this.dateTimeService.sameDay(new Date(f.date), day.date))
-        })
-      }
-    )
+  setLoggedFoods(lf: LoggedFood[]) {
+    this.loggedFoods = lf;
+
+    this.days.forEach(day => {
+      day.loggedFoods = lf
+        .filter(f => this.dateTimeService.sameDay(new Date(f.date), day.date))
+    })
   }
 
   changeDates(range: DateRange<Date> | null){

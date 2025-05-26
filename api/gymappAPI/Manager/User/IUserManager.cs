@@ -4,7 +4,7 @@ namespace gymappAPI.Manager;
 
 public interface IUserManager
 {
-    public Task<User?> GetUserByIdAsync(string id);
+    public Task<User?> GetUserByIdAsync(Guid id);
     
     public Task<User?> GetCurrentUserAsync();
     

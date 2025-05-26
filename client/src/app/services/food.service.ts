@@ -46,6 +46,13 @@ export class FoodService {
       params: {startDate: fstart, endDate: fend},});
   }
 
+  getInDateRangeFor(userId: string, start: Date, end: Date) : Observable<LoggedFood[]>{
+    const fstart = start.toISOString();
+    const fend = end.toISOString();
+    return this.http.get<LoggedFood[]>(this.baseApiUrl + 'Food/logged/' + userId,{
+      params: {startDate: fstart, endDate: fend},});
+  }
+
   getAllForDate(date: Date) : Observable<LoggedFood[]>{
     const fdate = new Date(date).toISOString();
     return this.http.get<LoggedFood[]>(this.baseApiUrl + 'Food/getAllForDate',{
